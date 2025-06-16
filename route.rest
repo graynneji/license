@@ -1,0 +1,22 @@
+# POST http://localhost:1000/license
+# Content-Type: application/json
+
+# {
+    
+#     "domain": "gray.com",
+#     "supabaseUrl": "Quuejdjdkdkd.supabase.co",
+#     "supabaseKey": "KWHHjwwkwkkKKWUu.KKWJjekk.pposkkksjmndIQ",
+#     "licenseKey": "892HKWKlllsuYWKWNJ99893&#(nn,POW"
+# }
+
+
+POST http://localhost:1000/auth
+Content-Type: application/json
+
+{
+    "email": "graynneji405@gmail.com",
+    "password": "frankfurt",
+    "licenseKey": "GJKN9-23XHY-QPW4A-8FZ6V-7L3DR"
+}
+
+
