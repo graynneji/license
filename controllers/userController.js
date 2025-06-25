@@ -7,7 +7,8 @@ const userServices = require("../services/userService");
  */
 exports.getUsersController = async (req, res) => {
   try {
-    const { userId, licenseKey } = req.params;
+    const userId = req.query.userId;
+    const licenseKey = req.headers["soullve-license-key"];
     const result = await userServices.handleGetUser(userId, licenseKey);
 
     if (!result.success) {
@@ -26,7 +27,8 @@ exports.getUsersController = async (req, res) => {
  */
 exports.getTherapistInfoController = async (req, res) => {
   try {
-    const { userId, licenseKey, desgn } = req.params;
+    const { userId, desgn } = req.query;
+    const licenseKey = req.headers["soullve-license-key"];
     const result = await userServices.handleGetTherapistInfo(
       userId,
       licenseKey,
@@ -48,7 +50,7 @@ exports.getTherapistInfoController = async (req, res) => {
  */
 exports.getAppointmentsController = async (req, res) => {
   try {
-    const { patientId, therapistId, licenseKey } = req.params;
+    const { patientId, therapistId, licenseKey } = req.query;
     const result = await userServices.handleGetAppointments(
       patientId,
       therapistId,
@@ -71,7 +73,7 @@ exports.getAppointmentsController = async (req, res) => {
  */
 exports.getQuestionaireController = async (req, res) => {
   try {
-    const { patientId, licenseKey } = req.params;
+    const { patientId, licenseKey } = req.query;
     const result = await userServices.handleGetQuestionaire(
       patientId,
       licenseKey
@@ -119,7 +121,7 @@ exports.updateViewNotesController = async (req, res) => {
  */
 exports.getNoteController = async (req, res) => {
   try {
-    const { patientId, licenseKey } = req.params;
+    const { patientId, licenseKey } = req.query;
     const result = await userServices.handleGetNote(patientId, licenseKey);
 
     if (!result.success) {
@@ -138,7 +140,8 @@ exports.getNoteController = async (req, res) => {
  */
 exports.getAllPatientsAttachedToTherapistController = async (req, res) => {
   try {
-    const { userId, licenseKey, desgn } = req.params;
+    const { userId, desgn } = req.query;
+    const licenseKey = req.headers["soullve-license-key"];
     const result = await userServices.handleGetAllPatientsAttachedToTherapist(
       userId,
       licenseKey,

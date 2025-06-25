@@ -3,14 +3,14 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 
 /**
- * POST /user - Get user details
+ * GET /user - Get user details
  */
-router.post("/", userController.getUsersController);
+router.get("/", userController.getUsersController);
 
 /**
- * POST /user/therapist/info - Get therapist info
+ * GET /user/therapist/info - Get therapist info
  */
-router.post("/therapist/info", userController.getTherapistInfoController);
+router.get("/therapist/info", userController.getTherapistInfoController);
 
 /**
  * POST /user/appointments - Get appointments for a patient and therapist
@@ -33,9 +33,9 @@ router.post("/note/update", userController.updateViewNotesController);
 router.post("/note", userController.getNoteController);
 
 /**
- * POST /user/therapist/patients - Get all patients attached to a therapist
+ * GET /user/therapist/patients - Get all patients attached to a therapist
  */
-router.post(
+router.get(
   "/therapist/patients",
   userController.getAllPatientsAttachedToTherapistController
 );
