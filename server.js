@@ -11,11 +11,11 @@ const port = parseInt(process.env.PORT || "1000", 10);
 // const mongoose = require("./config/db");
 const connectDB = require("./config/db");
 
-app.use(async (req, res, next) => {
-  await connectDB();
-  next();
-});
-// connectDB(); // Call once during startup
+// app.use(async (req, res, next) => {
+// await connectDB();
+// next();
+// });
+connectDB(); // Call once during startup
 
 // Routes
 const authRoute = require("./routes/authRoute");
@@ -56,10 +56,10 @@ app.get("/", (req, res) => res.send("API is up and running"));
 app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 // 👇 Only listen when running directly (e.g., node server.js)
-if (require.main === module) {
-  app.listen(port, () =>
-    console.log(`Server running on http://localhost:${port}`)
-  );
-}
+// if (require.main === module) {
+app.listen(port, () =>
+  console.log(`Server running on http://localhost:${port}`)
+);
+// }
 
-module.exports = app;
+// module.exports = app;
