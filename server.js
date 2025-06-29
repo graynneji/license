@@ -21,8 +21,8 @@ const keysRoute = require("./routes/keysRoute");
 // Allow CORS
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    // origin: "*",
+    // origin: "http://localhost:3000",
+    origin: "*",
     // or ['http://localhost:3000', 'https://yourdomain.com']
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
