@@ -49,6 +49,12 @@ app.use("/user", userRoute);
 app.use("/appointment", appointmentRoute);
 app.use("/keys", keysRoute);
 
+// Handle root route
+app.get("/", (req, res) => res.send("API is up and running"));
+
+// Handle favicon to avoid timeouts
+app.get("/favicon.ico", (req, res) => res.status(204).end());
+
 // 👇 Only listen when running directly (e.g., node server.js)
 if (require.main === module) {
   app.listen(port, () =>
