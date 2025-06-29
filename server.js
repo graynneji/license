@@ -8,7 +8,14 @@ const cookieParser = require("cookie-parser");
 const port = parseInt(process.env.PORT || "1000", 10);
 
 // Database connection
-const mongoose = require("./config/db");
+// const mongoose = require("./config/db");
+const connectDB = require("./config/db");
+
+// app.use(async (req, res, next) => {
+//   await connectDB();
+//   next();
+// });
+connectDB(); // Call once during startup
 
 // Routes
 const authRoute = require("./routes/authRoute");
