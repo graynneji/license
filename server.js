@@ -15,6 +15,8 @@ const authRoute = require("./routes/authRoute");
 const licenseRoute = require("./routes/licenseRoute");
 const messageRoute = require("./routes/messageRoute");
 const userRoute = require("./routes/userRoutes");
+const appointmentRoute = require("./routes/appointmentRoute");
+const keysRoute = require("./routes/keysRoute");
 
 // Allow CORS
 app.use(
@@ -37,5 +39,14 @@ app.use("/auth", authRoute);
 app.use("/license", licenseRoute);
 app.use("/messages", messageRoute);
 app.use("/user", userRoute);
+app.use("/appointment", appointmentRoute);
+app.use("/keys", keysRoute);
 
-app.listen(port, () => console.log(`server connected at ${port}`));
+// 👇 Only listen when running directly (e.g., node server.js)
+if (require.main === module) {
+  app.listen(port, () =>
+    console.log(`Server running on http://localhost:${port}`)
+  );
+}
+
+module.exports = app;

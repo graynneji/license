@@ -9,7 +9,7 @@ exports.handleSendMessage = async (
   licenseKey
 ) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 
@@ -45,7 +45,7 @@ exports.handleSendMessage = async (
  */
 exports.handleGetMessages = async (userId, licenseKey) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 
@@ -85,7 +85,7 @@ exports.handleGetUserPairMessages = async (
   licenseKey
 ) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 

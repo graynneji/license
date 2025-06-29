@@ -4,16 +4,29 @@ const { setCache } = require("../utils/cache");
 
 exports.registerLicense = async (req, res) => {
   try {
-    await licenseSchema.validate(req.body, { abortEarly: false });
-    const { domain, supabaseUrl, supabaseKey, licenseKey } = req.body;
-    const savedLicense = await licenseService.handleLicense(
+    const licenseKey = req.headers["soullve-license-key"];
+    const supabaseUrl = req.headers["soullve-supabase-url"];
+    const supabaseKey = req.headers["soullve-supabase-anon-key"];
+    const domain = req.headers["soullve-host-name"];
+    if (!licenseKey || !supabaseUrl || !supabaseKey || !domain) {
+      return res.status(400).json({ error: "Missing required headers" });
+    }
+    const credentials = {
       domain,
       supabaseUrl,
       supabaseKey,
-      licenseKey
-    );
+      licenseKey,
+    };
+    await licenseSchema.validate(credentials, { abortEarly: false });
+
+    const savedLicense = await licenseService.handleLicense(credentials);
+    if (!savedLicense) {
+      return res.status(400).json({ error: "License registration failed" });
+    }
+
     res.status(201).json({ message: "License saved", license: savedLicense });
   } catch (error) {
+    console.log("Error in registerLicense:", error);
     if (error.name === "ValidationError") {
       return res
         .status(400)

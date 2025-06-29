@@ -1,15 +1,16 @@
-import { createClient } from "@supabase/supabase-js";
-import { getCache } from "../utils/cache";
+const { createClient } = require("@supabase/supabase-js");
+const { getCache } = require("../utils/cache");
 
 /**
  * Fetches appointments for a patient and therapist.
- * @param patientId - The patient's unique ID.
- * @param therapistId - The therapist's unique ID.
- * @returns Promise containing appointments data or error info.
+ * @param {string} userId - The patient's unique ID.
+ * @param {string} therapistId - The therapist's unique ID.
+ * @param {string} licenseKey - The license key for authentication.
+ * @returns {Promise<{success: boolean, data?: any, error?: string}>}
  */
-export async function getAppointments(patientId, therapistId, licenseKey) {
+exports.getAppointments = async (userId, therapistId, licenseKey) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 
@@ -20,24 +21,28 @@ export async function getAppointments(patientId, therapistId, licenseKey) {
     const { data, error } = await supabase
       .from("appointment")
       .select("id, title, start, backgroundColor, borderColor")
-      .match({ patient_id: patientId, therapist_id: therapistId });
+      .match({ patient_id: userId, therapist_id: therapistId });
 
     if (error) throw new Error("Database error: " + error.message);
     return { success: true, data };
   } catch (error) {
     return { success: false, error: error.message || String(error) };
   }
-}
+};
 
 /**
  * Schedules a new appointment for a user with a therapist.
- * @param options - Includes userId, therapistId, and color for event.
- * @param formData - FormData containing title and start.
- * @returns Promise containing insert result or error info.
+ * @param {Object} options - Includes userId, therapistId, and color for the event.
+ * @param {string} options.userId - The user's unique ID.
+ * @param {string} options.therapistId - The therapist's unique ID.
+ * @param {string} options.color - The color for the event.
+ * @param {FormData} formData - FormData containing title and start.
+ * @param {string} licenseKey - The license key for authentication.
+ * @returns {Promise<{success: boolean, data?: any, error?: string}>}
  */
-export async function scheduleAppointment(options, formData) {
+exports.scheduleAppointment = async (event, licenseKey) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 
@@ -45,20 +50,11 @@ export async function scheduleAppointment(options, formData) {
       throw new Error("Invalid license details");
     }
     const supabase = createClient(supabaseUrl, supabaseKey);
-    const title = formData.get("title");
-    const start = formData.get("start");
-    const event = {
-      title,
-      start,
-      backgroundColor: options.color,
-      borderColor: options.color,
-      patient_id: options.userId,
-      therapist_id: options.therapistId,
-    };
+
     const { data, error } = await supabase.from("appointment").insert([event]);
     if (error) throw new Error("Database error: " + error.message);
     return { success: true, data };
   } catch (error) {
     return { success: false, error: error.message || String(error) };
   }
-}
+};

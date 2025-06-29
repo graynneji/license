@@ -9,10 +9,9 @@ const { getCache } = require("../utils/cache");
  */
 exports.handleGetUser = async (userId, licenseKey) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
-
     if (!supabaseUrl || !supabaseKey) {
       throw new Error("Invalid license details");
     }
@@ -44,7 +43,7 @@ exports.handleGetUser = async (userId, licenseKey) => {
  */
 exports.handleGetTherapistInfo = async (userId, licenseKey, desgn) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 
@@ -77,7 +76,7 @@ exports.handleGetTherapistInfo = async (userId, licenseKey, desgn) => {
  */
 exports.handleGetAppointments = async (patientId, therapistId, licenseKey) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 
@@ -108,7 +107,7 @@ exports.handleGetAppointments = async (patientId, therapistId, licenseKey) => {
  */
 exports.handleGetQuestionaire = async (patientId, licenseKey) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 
@@ -143,7 +142,7 @@ exports.handleUpdateViewNotes = async (patientId, formData, licenseKey) => {
     const note = formData.get("note");
     const color = formData.get("color");
 
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
     if (!supabaseUrl || !supabaseKey) {
@@ -196,7 +195,7 @@ exports.handleUpdateViewNotes = async (patientId, formData, licenseKey) => {
  */
 exports.handleGetNote = async (patientId, licenseKey) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 
@@ -246,7 +245,7 @@ exports.handleGetAllPatientsAttachedToTherapist = async (
       return { success: false, error: "User is a patient, not a therapist." };
     }
 
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
     if (!supabaseUrl || !supabaseKey) {
@@ -287,7 +286,7 @@ exports.handleCreateAppointment = async (
     const title = formData.get("title");
     const start = formData.get("start");
 
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
     if (!supabaseUrl || !supabaseKey) {

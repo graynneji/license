@@ -1,16 +1,16 @@
-import appointmentService from "../services/appointmentService";
+const appointmentService = require("../services/appointmentService");
 
 /**
  * Controller to get appointments for a patient and therapist.
  * @param req - Express request.
  * @param res - Express response.
  */
-export const getAppointmentsController = async (req, res) => {
+exports.getAppointmentsController = async (req, res) => {
   try {
-    const { patientId, therapistId } = req.query;
+    const { userId, therapistId } = req.query;
     const licenseKey = req.headers["soullve-license-key"];
     const result = await appointmentService.getAppointments(
-      patientId,
+      userId,
       therapistId,
       licenseKey
     );
@@ -29,14 +29,18 @@ export const getAppointmentsController = async (req, res) => {
  * @param req - Express request.
  * @param res - Express response.
  */
-export const scheduleAppointmentController = async (req, res) => {
+exports.scheduleAppointmentController = async (req, res) => {
   try {
-    const { userId, therapistId, color } = req.body;
-    const formData = req.body.formData; // Assuming formData is passed and parsed correctly
-
+    // const { title,
+    // start,
+    // backgroundColor,
+    // borderColor,
+    // patient_id,
+    // therapist_id } = req.body;
+    const licenseKey = req.headers["soullve-license-key"];
     const result = await appointmentService.scheduleAppointment(
-      { userId, therapistId, color },
-      formData
+      req.body,
+      licenseKey
     );
 
     if (!result.success) {

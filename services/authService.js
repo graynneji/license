@@ -3,7 +3,7 @@ const { getCache } = require("../utils/cache");
 const cookie = require("cookie");
 
 exports.handleLogin = async (licenseKey) => {
-  const licenseDetails = getCache(licenseKey);
+  const licenseDetails = await getCache(licenseKey);
   const supabaseUrl = licenseDetails?.supabaseUrl;
   const supabaseKey = licenseDetails?.supabaseKey;
 
@@ -16,7 +16,7 @@ exports.handleLogin = async (licenseKey) => {
 
 exports.handleVerify = async (token_hash, type, licenseKey) => {
   try {
-    const licenseDetails = getCache(licenseKey);
+    const licenseDetails = await getCache(licenseKey);
     const supabaseUrl = licenseDetails?.supabaseUrl;
     const supabaseKey = licenseDetails?.supabaseKey;
 

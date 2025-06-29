@@ -1,20 +1,37 @@
-const cache = {};
+const { Redis } = require("@upstash/redis");
 
-function setCache(key, value, ttl = 3600) {
-  cache[key] = {
-    value,
-    expires: Date.now() + ttl * 1000,
-  };
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL, // Use your Upstash Redis URL
+  token: process.env.UPSTASH_REDIS_REST_TOKEN, // Use your Upstash Redis token
+});
+// client.connect().catch(console.error);
+
+/**
+ * Set a cache key in Upstash Redis with optional TTL (default: 1 hour)
+ * @param {string} key
+ * @param {any} value
+ * @param {number} ttl - Time to live in seconds
+ */
+async function setCache(key, value, ttl = 3600) {
+  const serialized = JSON.stringify(value);
+  await redis.set(key, serialized, { EX: ttl });
 }
 
-function getCache(key) {
-  const entry = cache[key];
-  if (!entry) return null;
-  if (Date.now() > entry.expires) {
-    delete cache[key];
-    return null;
+/**
+ * Retrieve a cache key from Upstash Redis
+ * @param {string} key
+ * @returns {Promise<any|null>}
+ */
+async function getCache(key) {
+  const result = await redis.get(key);
+  if (!result) return null;
+
+  if (typeof result === "object") return result;
+
+  try {
+    return JSON.parse(result);
+  } catch {
+    return result;
   }
-  return entry.value;
 }
-
 module.exports = { setCache, getCache };

@@ -14,4 +14,4 @@ router.get("/", appointmentController.getAppointmentsController);
  */
 router.post("/", appointmentController.scheduleAppointmentController);
 
-export default router;
+module.exports = router;
